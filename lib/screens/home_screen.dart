@@ -1,6 +1,8 @@
 import 'package:api_bloc/blocs/app_blocs.dart';
 import 'package:api_bloc/blocs/app_events.dart';
-import 'package:api_bloc/blocs/app_states.dart';
+//import 'package:api_bloc/blocs/app_states.dart';
+import 'package:api_bloc/blocs/cubit/user_cubit.dart';
+import 'package:api_bloc/blocs/cubit/user_state.dart';
 import 'package:api_bloc/repos/repository.dart';
 import 'package:flutter/material.dart';
 
@@ -17,14 +19,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => UserBloc(
+      create: (context) => UserCubit(
         RepositoryProvider.of<UserRepo>(context),
-      )..add(EventUserLoaded()),
+      )..getData(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Flutter Bloc Demo"),
         ),
-        body: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+        body: BlocBuilder<UserCubit, UserState>(builder: (context, state) {
           if (state is StateUserLoading) {
             return const Center(
               child: CircularProgressIndicator(),
